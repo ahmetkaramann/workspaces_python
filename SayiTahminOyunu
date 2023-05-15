@@ -1,0 +1,21 @@
+import random
+x =random.randint(1,100)
+
+i=0
+for i in range (1,6):
+
+    tahmin=int(input("Lutfen bir tahmin yapiniz\n"))
+    if i<5 and i>=1 :
+        if tahmin < x :
+            print("Biraz yukari çikmalisin")
+
+        elif tahmin > x :
+            print("Biraz asagi inmelisin")
+
+        else:
+            print("TEBRİKLER")
+            print("Tutulan sayi :{}".format(x))
+            break
+    else :
+        print("GAME OVER")
+        print("Tutulan sayi :"+str(x))
