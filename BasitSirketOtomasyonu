@@ -1,0 +1,124 @@
+class Sirket():
+    def __init__(self,ad):
+        self.ad=ad
+        self.calisma = True
+        
+        
+    def program(self):
+        secim=self.menuSecim()
+        
+        if secim==1:
+            self.calisanEkle()
+        if secim==2:
+            self.calisanCikar()
+        if secim==3:
+            self.verilecekMaasGoster()
+        if secim==4:
+            self.maaslariVer()
+        if secim==5:
+            self.masrafGir()
+        if secim==5:
+            self.gelirGir()               
+                
+        
+    def menuSecim(self):
+        secim =int(input("*****{} otomasyonuna Hos geldiniz *****\n\n1-Calisan Ekle\n2-Calisan Cikar\n3-Verilecek Maas Goster\n4-Maaslari ver\n5-Masraf\n6-Gelir gir\n\nSeciminizi giriniz..".format(self.ad)))
+        while secim>6 or secim<1:
+            secim=int(input("Lutfen 1-6 arasinda bir sayi giriniz.."))
+        
+        return secim    
+        
+    
+    def calisanEkle(self):
+        id = 1
+        ad = input("Calisanin adini giriniz: ")
+        soyad = input("Calisanin soyadini giriniz: ")
+        yas = input("Calisanin yasini giriniz: ")
+        cinsiyet = input("Calisanin cinsiyetini giriniz: ")
+        maas = input("Calisanin maasini giriniz: ")
+
+        with open("calisanlar.txt", "r") as dosya:
+            calisanListesi = dosya.readlines()
+
+        if len(calisanListesi) == 0 or calisanListesi[-1] == "\n":
+            id=1
+        else:    
+            with open("calisanlar.txt", "r") as dosya:
+                id = int(dosya.readlines()[-1].split(")")[0])+1
+
+        with open("calisanlar.txt", "a+") as dosya:
+            dosya.write("{}){}-{}-{}-{}-{}\n".format(id, ad, soyad, yas, cinsiyet, maas))
+          
+  
+               
+    def calisanCikar(self):
+        with open("calisanlar.txt","r") as dosya :
+            calisanlar=dosya.readlines()
+          
+        gCalisanlar=[]
+        
+        for calisan in calisanlar:
+            gCalisanlar.append(" ".join(calisan[:-1].split("-")))
+            
+        for calisan in calisanlar:
+            print(calisan)
+        
+        secim=int(input("Lutfen cikarmak istediginiz calisanin numarasini giriniz (1-{})".format(len(gCalisanlar)))) 
+        
+        while secim<1 or secim > len(gCalisanlar) :
+            secim=int(input("Lutfen 1-{} arasinda bir numara giriniz".format(len(gCalisanlar)))) 
+        
+        calisanlar.pop(secim - 1)
+        
+        sayac=1
+        
+        dCalisanlar=[]
+        
+        for calisan in calisanlar:
+            dCalisanlar.append(str(sayac) + ")"+ calisan.split(")")[1])
+            sayac +=1
+        
+        with open ("calisanlar.txt","w")as dosya:
+            dosya.writelines(dCalisanlar)
+             
+    def verilecekMaasGoster(self):
+        with open("calisanlar.txt","r") as dosya:
+            calisanlar=dosya.readlines()
+
+        maaslar=[]
+        
+        for calisan in calisanlar :
+            maaslar.append(int(calisan.split("-")[-1] ))
+            
+        print("Bu ay toplam vermeniz gereken maas : {}".format(sum(maaslar)))
+            
+    def maaslariVer(self):
+        with open("calisanlar.txt","r") as dosya:
+            calisanlar=dosya.readlines()
+
+        maaslar=[]
+        
+        for calisan in calisanlar :
+            maaslar.append(int(calisan.split("-")[-1] ))
+
+        toplamMaas = sum(maaslar)
+       ##butçeden maasi alma 
+        with open("butce.txt","r") as dosya:
+            tButce=int(dosya.readlines()[0])
+
+        tButce = tButce - toplamMaas 
+        
+        with open("butce.txt","w") as dosya:
+            dosya.write(str(tButce))
+             
+    
+sirket = Sirket("Karaman Mekatronik")
+
+while sirket.calisma:
+    sirket.program()    
+    
+    
+    
+    
+    
+    
